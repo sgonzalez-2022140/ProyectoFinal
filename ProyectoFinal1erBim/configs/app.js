@@ -3,6 +3,7 @@
 //importamos express y sus confs
 import express from 'express'
 import { config } from "dotenv"
+import cors from 'cors'
 
 //exportamos métodos
 import categoryRoutes from "../src/category/category.routes.js"
@@ -13,6 +14,9 @@ import userRoutes from '../src/user/user.routes.js'
 const app = express()
 config();
 const port = process.env.PORT || 3056
+
+//cors confs
+app.use(cors())
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())

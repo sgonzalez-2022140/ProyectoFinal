@@ -23,3 +23,29 @@ export const checkPassword = async(password, hash)=>{
     }
 }
 
+export const checkUpdateProduct = (data, productId)=>{
+    if(productId){
+        if(
+            //aqui decimos que si los objetos estan vacios (name y stock) sera falso
+            Object.entries(data).length === 0 ||
+            data.name ||
+            data.name == '' ||
+            data.stock ||
+            data.stock === ''        
+        ) {
+            return false
+        }
+        return true
+    }else{
+        //aqui decimos que la categoria no puede estar vacia 
+        if(
+            Object.entries(data).length === 0 ||
+            data.category ||
+            data.category == ''
+        ) {
+            return false
+        }
+        return true
+    }
+}
+

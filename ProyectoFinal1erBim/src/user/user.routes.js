@@ -6,7 +6,8 @@ import {
 
 import {
     register,
-    login
+    login,
+    deleteUser
 } from './user.controller.js'
 
 const api = express.Router()
@@ -18,5 +19,6 @@ api.post('/login', login)
 //Rutas privadas
 api.get('/test', [validateJwt, isAdmin])
 api.put('/update/:id', [validateJwt])
+api.delete('/deleteUser/:id', deleteUser)
 
 export default api

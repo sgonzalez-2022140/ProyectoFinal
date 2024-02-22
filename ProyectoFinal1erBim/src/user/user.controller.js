@@ -58,3 +58,20 @@ export const login = async(req, res)=>{
         return res.status(500).send({message: 'Error to login'})
     }
 }
+
+export const deleteUser = async(req, res)=>{
+    try{
+        //Obtener el Id
+        let { id } = req.params
+        
+        //Eliminar (deleteOne (solo elimina no devuelve el documento) / findOneAndDelete (Me devuelve el documento eliminado))
+        let deletedUser = await User.findOneAndDelete({_id: id}) 
+        //Verificar que se eliminó
+        if(!deletedUser) return res.status(404).send({message: 'Account not found and not deleted'})
+        //Responder
+        return res.send({message: `Account with username ${deletedUser.username} deleted successfully`}) //status 200
+    }catch(err){
+        console.error(err)
+        return res.status(500).send({message: 'Error deleting account'})
+    }
+}
