@@ -53,6 +53,20 @@ export const getNoProducts = async(req, res)=>{
     }
 }
 
+//Buscar producto por nombre para los CLIENTES
+export const search = async(req, res)=>{
+    try{
+        let { name } = req.body
+        console.log(name)
+        let product = await Product.find({name: name})
+        if(!product) return res.status(404).send({message: 'Product not found'})
+        return res.send({message: 'Product found !!!', product})
+    }catch(err){
+        console.error(err)
+        return res.status(500).send({message: 'Error searching products'})
+    }
+}
+
 
 // Productos individuales por ID
 export const getAProduct = async(req, res) => {
@@ -73,6 +87,7 @@ export const getAProduct = async(req, res) => {
     }
 };
 
+// //////////////////////////////////////////////////////////////////////////////////////////
 // ---------------------------- Actualizar información del producto -------------------------
 export const updateProduct = async(req, res)=>{
     try{
@@ -117,3 +132,24 @@ export const deleteProducts = async(req, res)=>{
     }
 }
 
+// ---------------------------------- Ver Productos por Cátalogo ------------------------------------------
+export const viewProductbyCategory = async (req, res) => {
+    // Necesitamos la info de un producto individual por el parametro id
+    let { category } = req.params;
+    console.log(category)
+    try {
+        // Buscar por el id de categoría
+        let products = await Product.find({ category: category });
+
+        // Validar
+        if (!products || products.length === 0) {
+            res.status(404).send({ message: 'Products not found in the category' });
+        } else {
+            return res.send({ message: 'Products found', products });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(404).send({ message: 'No info' });
+    }
+};
+    

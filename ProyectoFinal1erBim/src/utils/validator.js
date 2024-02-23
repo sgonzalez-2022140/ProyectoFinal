@@ -49,3 +49,19 @@ export const checkUpdateProduct = (data, productId)=>{
     }
 }
 
+export const checkUpdateCategory = (data, CategoryId)=>{
+    if(CategoryId){
+        if(
+            //aqui decimos que si los objetos estan vacios (name y stock) sera falso
+            Object.entries(data).length === 0 ||
+            data.name ||
+            data.name == '' ||
+            data.description ||
+            data.description == ''        
+        ) {
+            return false
+        }
+        return true
+    }
+}
+
