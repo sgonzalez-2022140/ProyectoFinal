@@ -1,7 +1,7 @@
 import User from './user.model.js'
 
 import {    encrypt, 
-    checkPassword 
+    checkPassword, checkUpdateUser 
     
 } from '../utils/validator.js'
 
@@ -58,6 +58,33 @@ export const login = async(req, res)=>{
         return res.status(500).send({message: 'Error to login'})
     }
 }
+
+export const updateUser = async(req, res) =>{
+    try {
+        let { id } = req.params
+        //Datos para actualizar
+        let data = req.body
+        //validar si trae datos
+        let update = checkUpdateUser(data, id)
+        if(!update) return res.status(400).send({message: 'Have submitted some data that cannot be updated or missing data'})
+        //Actualizar la BD
+        let updateUser = await User.findOneAndUpdate(
+            {_id: id},
+            data,
+            {new: true}
+        )
+        //Validar que se actualizo
+        if(!updateUser) return res.status(401).send({message: 'User not found and not updated'})
+        //Respondo al user
+        return res.send({message: 'Updated user'. updateUser})
+    } catch (err) {
+        console.error(err)
+        if(err.keyValue.username) return res.status(400).send({message: `Username ${err.keyValue.username} is already taken`})        
+        return res.status(500).send({message: 'Error updating account'})
+    }
+}
+
+
 
 export const deleteUser = async(req, res)=>{
     try{

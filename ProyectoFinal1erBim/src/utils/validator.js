@@ -23,6 +23,22 @@ export const checkPassword = async(password, hash)=>{
     }
 }
 
+export const checkUpdateUser = (data, userID)=>{
+    if(userID){
+        //Decimos que estos objetos deben estar vacios
+        if(
+            Object.entries(data).length === 0 ||
+            data.password ||
+            data.password == '' ||
+            data.role ||
+            data.role == ''
+        ) {
+            return false
+        }
+        return true
+    }
+}
+
 export const checkUpdateProduct = (data, productId)=>{
     if(productId){
         if(
